@@ -1,0 +1,60 @@
+<!-- Basic JavaScript-rendered Hello World -->
+<!-- http://localhost:3000/isolated/exercise/01.html -->
+
+<body>
+    <!-- <div id="root"></div> -->
+
+    <script type="module">
+
+    /* 
+        -------------------------------------------------------------------------------------
+        Core task:
+        -------------------------------------------------------------------------------------
+        <!-- 🐨 Create (in HTML) a <body> with a <div> with the id of "root" -->
+        <!-- 🐨 Then create a <script type="module"> for your JavaScript -->
+
+        <!-- These next instructions are to be written in JavaScript in the <script> tag -->
+        <!-- 🐨 Create a div -->
+        <!--   💰 document.createElement('div') -->
+
+        <!-- 🐨 Set the div's textContent to 'Hello World' and className to 'container' -->
+        <!--   💰 div.textContent = '...' -->
+
+        <!-- 🐨 Append the div to the root div using `append` -->
+        <!--   💰 document.getElementById('root') -->
+        <!--   📜 https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append -->
+
+        -------------------------------------------------------------------------------------
+        Extra Credit:
+        -------------------------------------------------------------------------------------
+
+        - Generating  the root element: 
+        
+            Instead of hardcoding the div with an id of "root" programmatically create the DOM node and render the other elements to it.
+
+            Example:
+            
+            document.createElement('div').setAttribute('id','root');
+        -------------------------------------------------------------------------------------
+    */
+
+        // Programmatically creating the DOM node and appending it to the body (EXTRA CREDIT)
+        const rootElement = document.createElement('div');
+
+        // Set the divs id to root (EXTRA CREDIT)
+        rootElement.setAttribute('id', 'root');
+        
+        // Update the DOM with the new element (Core Task)
+        document.body.append(rootElement);
+
+        // Create a new div (Core Task)
+        const element = document.createElement('div');
+
+        // Set the raw text content to "Hello World" and apply a class name as specified above (Core Task)
+        element.textContent = "Hello World";
+        element.className = 'container';
+
+        // Append the new div to the rootElement (Core Task)
+        rootElement.append(element);
+    </script>
+</body>

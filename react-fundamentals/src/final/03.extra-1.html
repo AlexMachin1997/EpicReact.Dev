@@ -1,0 +1,16 @@
+<!-- Using JSX -->
+<!-- 💯 interpolate className and children -->
+<!-- http://localhost:3000/isolated/final/03.extra-1.html -->
+
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.9.3/babel.js"></script>
+  <script type="text/babel">
+    const children = 'Hello World'
+    const className = 'container'
+    const element = <div className={className}>{children}</div>
+    ReactDOM.render(element, document.getElementById('root'))
+  </script>
+</body>

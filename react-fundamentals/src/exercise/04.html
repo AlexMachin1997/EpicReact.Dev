@@ -1,0 +1,200 @@
+<!-- Creating custom components -->
+<!-- http://localhost:3000/isolated/exercise/04.html -->
+
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.9.3/babel.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+
+  <script type="text/babel">
+    
+    /* 
+  
+    -------------------------------------------------------------------------------------
+    Core Task: 
+    -------------------------------------------------------------------------------------
+    
+    So we need to make a function which accepts the `children` as an argument and
+    returns the React element. Then you can interpolate a call to that function in
+    your JSX.
+
+    // 🐨 Make a function called `message` which returns the JSX we want to share
+    // 🐨 use that function in place of the divs below with:
+    // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
+
+    -------------------------------------------------------------------------------------
+    Extra Credits:
+    -------------------------------------------------------------------------------------
+    
+    - using a custom component with React.createElement:
+
+    Use the new function and create the React element via the createElement() api
+
+    -------------------------------------------------------------------------------------
+
+    - using a custom component with JSX:
+
+    Instead of using the createElement render the component using JSX (Must be uppercase case and is referenced differently)
+
+    -------------------------------------------------------------------------------------
+
+    - Runtime validation with PropTypes:
+
+    Create a custom function to validate a component props (NOT RECOMMENDED FOR ACTUAL APP'S)
+
+    -------------------------------------------------------------------------------------
+    
+    - Use the prop-types package:
+
+    Add the propTypes package reference and use the external package to validate the props instead of writing custom functions.
+
+    To use proptypes you can reference the methods like PropTypes.[method e.g. string or isRequired]
+
+    -------------------------------------------------------------------------------------
+    
+    - using React Fragments
+
+    Instead of using a div, what else could you do to wrap JSX to ensure it has one parent. Ssh it's react fragments e.g. <></> or <React.Fragment><React.Fragment>
+
+    -------------------------------------------------------------------------------------
+
+    */
+
+
+    /* 
+    -------------------------------------------------------------------------------------
+    Core Task - Creating a React component 
+    -------------------------------------------------------------------------------------
+    */
+
+    // const message = ({children}) => <div className="message">{children}</div>;
+    
+    // const element = (
+    //   <div className="container">
+    //     {message({children: 'Hello World'})}
+    //     {message({children: 'Goodbye World'})}
+    //   </div>
+    // )
+
+    /* 
+      -------------------------------------------------------------------------------------
+      Extra Credit 1 - Rendering components via createElement api 
+      -------------------------------------------------------------------------------------
+    */
+    // const message = ({children}) => <div className="message">{children}</div>;
+      
+    // const HelloWorld = React.createElement(message, {children: 'Hello World'});
+    // const GoodbyeWorld = React.createElement(message, {children: 'Goodbye World'});
+
+    // const element = (
+    //   <div className="container">
+    //     {HelloWorld}
+    //     {GoodbyeWorld}
+    //   </div>
+    // )
+
+
+    /* 
+      -------------------------------------------------------------------------------------
+      Extra Credit 2 - Rendering components via JSX 
+      -------------------------------------------------------------------------------------
+    */
+
+    // const Message = ({children}) => <div className="message">{children}</div>;
+    
+    // const element = (
+    //   <div className="container">
+    //     <Message>
+    //       Hello World
+    //     </Message>
+        
+    //     <Message>
+    //       Goodbye World
+    //     </Message>
+    //   </div>
+    // )
+
+    /* 
+      -------------------------------------------------------------------------------------
+      Extra Credit 3 - Validating a components props via custom functions
+      -------------------------------------------------------------------------------------
+    */
+    // const Message = ({subject, greeting}) => <div className="message">{greeting}, {subject}</div>;
+
+    // const PropTypes = {
+    //   string(props, propName, componentName) {
+    //     const type = typeof props[propName];
+
+    //     if(type !== 'string') {
+    //       return new Error(`Invalid ${propName} for ${componentName}. It needs to be of type string`);
+    //     }
+    //   }
+    // }
+
+    // Message.propTypes = {
+    //   subject: PropTypes.string,
+    //   greeting: PropTypes.string
+    // }
+
+    // const element = (
+    //   <div className="container">
+    //     <Message subject={4} greeting="Hello"/>
+    //     <Message subject="Alex" greeting="Goodbye"/>
+    //   </div>
+    // )
+
+
+    /* 
+      -------------------------------------------------------------------------------------
+      Extra Credit 4 - Validating a components props via an external package known as prop-types
+      -------------------------------------------------------------------------------------
+    */
+    // const Message = ({subject, greeting}) => <div className="message">{greeting}, {subject}</div>;
+
+    // Message.propTypes = {
+    //   subject: PropTypes.string.isRequired,
+    //   greeting: PropTypes.string.isRequired
+    // }
+
+    // const element = (
+    //   <div className="container">
+    //     <Message subject={4} greeting="Hello"/>
+    //     <Message subject="Alex" greeting="Goodbye"/>
+    //   </div>
+    // )
+
+    
+    /* 
+      -------------------------------------------------------------------------------------
+      Extra Credit 5 - Rendering components with React Fragements
+      -------------------------------------------------------------------------------------
+    */
+    const Message = ({subject, greeting}) => <div className="message">{greeting}, {subject}</div>;
+
+    Message.propTypes = {
+      subject: PropTypes.string.isRequired,
+      greeting: PropTypes.string.isRequired
+    }
+
+    // Shorthand for fragments
+    const element = (
+      <>
+        <Message subject="Alex" greeting="Hello"/>
+        <Message subject="Alex" greeting="Goodbye"/>
+      </>
+    )
+    
+    // Long hand for fragments
+    // const element = (
+    //   <React.Fragment>
+    //     <Message subject="Alex" greeting="Hello"/>
+    //     <Message subject="Alex" greeting="Goodbye"/>
+    //   </React.Fragment>
+    // )
+
+    // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
+    ReactDOM.render(element, document.getElementById('root'))
+  </script>
+</body>

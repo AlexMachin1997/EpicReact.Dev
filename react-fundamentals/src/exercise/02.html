@@ -1,0 +1,106 @@
+<!-- Intro to raw React APIs -->
+<!-- http://localhost:3000/isolated/exercise/02.html -->
+
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+
+  <script type="module">
+    const rootElement = document.getElementById('root')
+
+    /* 
+
+    -------------------------------------------------------------------------------------
+    Core Task:
+    -------------------------------------------------------------------------------------
+    
+    // You're going to re-implement this code using React!
+    // 💣 So go ahead and delete this implementation (or comment it out for now)
+    
+    // These three lines are similar to React.createElement
+    // const element = document.createElement('div')
+    // element.textContent = 'Hello World' // 💰 in React, you set this with the "children" prop
+    // element.className = 'container' // 💰 in React, this is also called the "className" prop
+    // This is similar to ReactDOM.render
+    // rootElement.append(element)
+    
+    // 🐨 Please re-implement the regular document.createElement code above
+    // with these React API calls
+    // 💰 The example in the markdown file should be a good hint for you.
+    -------------------------------------------------------------------------------------
+    Extra Credit:
+    -------------------------------------------------------------------------------------
+      - Description:  
+    
+        Created nested elements and append them to the container which says "Hello World"
+        
+    
+      - Problems I had:
+
+        Surprisingly struggled with this part, I knew what to do, I just used JSX as opposed to using the createElement api's and then appending the elements individually. 
+        
+        I'm so used to just using JSX I forgot to use the API :laughing:
+
+
+        - What I was doing:
+        
+          const container = React.createElement('div', {className: 'container', children: <div><span>Hello</span><span>World</span></div>});
+
+        
+        - What needed to be done:
+        
+          const helloElement = React.createElement('span', {className: 'hello'}, 'Hello');
+          
+          const worldElement = React.createElement('span', {className: 'world'}, 'World');
+
+          const container = React.createElement('div', {className: 'container'}, helloElement, worldElement);
+
+
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    Notes:
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    The createElement() API:
+
+
+    Description: 
+    
+    createElement() is a top level api which allows you to create raw React elements which are then returned as JSX.
+   
+
+    Arguments:
+
+      - element type e.g. span, div input etc
+
+      - props object, this is where props such as className, children, custom component props etc can be passed to the component before it is created
+
+      - Additional children elements, they will be appended automatically (React reads this as an array)
+          
+
+    Example:
+
+    const span = React.createElement('span', {}, 'Hello World');
+
+    const elements = React.createElement('div', {children: 'Hello World'}, span)
+    
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    */
+
+    // Create the first span element, this will contain the world "Hello" (child element for the react component)
+    const helloElement = React.createElement('span', {className: 'hello'}, 'Hello');
+    
+    // Create the second span element, this will contain the world "World" (child element for the react component)
+    const worldElement = React.createElement('span', {className: 'world'}, 'World');
+
+    // Creates a container element, this will have a className prop and it will also contain the helloElement and worldElement
+    const container = React.createElement('div', {className: 'container'}, helloElement, worldElement);
+
+    // Creates the root element which the components will be appended to
+    const reactElement = React.createElement('div', {children: container, className: 'container'});
+    
+    // Renders the reactElement to the div with an id of "root" 
+    ReactDOM.render(reactElement, rootElement);
+  </script>
+</body>

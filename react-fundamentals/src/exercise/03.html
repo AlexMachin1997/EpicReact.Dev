@@ -1,0 +1,90 @@
+<!-- Using JSX -->
+<!-- http://localhost:3000/isolated/exercise/03.html -->
+
+<body>
+  <div id="root"></div>
+
+  <!-- Inject external dependencies -->
+  <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.9.3/babel.js"></script>
+
+  <script type="text/babel">
+    
+    /* 
+    
+    -------------------------------------------------------------------------------------
+    Core Task:
+    -------------------------------------------------------------------------------------
+
+    Normally you'll compile all of your code at build-time before you ship your
+    application to the browser, but because Babel is written in JavaScript we can
+    actually run it _in_ the browser to compile our code on the fly and that's what
+    we'll do in this exercise.
+
+    So we'll include a script tag for Babel, then we'll update our own script tag to
+    tell Babel to compile it for us on the fly. When you're done, you should notice
+    the compiled version of the code appears in the `<head>` of the DOM (which you
+    can inspect using DevTools).
+
+    Note: For the JSX to be compiled the script type needs to be "text/babel"
+
+    -------------------------------------------------------------------------------------
+    Extra Credits:
+    -------------------------------------------------------------------------------------
+
+    - Spread operator:
+
+    Extract the className and text into separate variables, then combine them to allow for the spread operator to be used.
+    
+    -------------------------------------------------------------------------------------
+
+    - interpolate className and children:
+
+    Extract the className and element text into variables, use these to then to replace the values in the JSX.
+
+    -------------------------------------------------------------------------------------
+    
+    */
+
+
+    
+    /*
+    -------------------------------------------------------------------------------------
+    Extra Credit 1 (className and children interpolation)
+    -------------------------------------------------------------------------------------
+    */
+
+    // const className="container";
+    // const context = "Hello World";
+    
+    // Creates a JSX element
+    // const element = <div className={className}>{context}</div>;
+
+
+    /*
+    -------------------------------------------------------------------------------------
+    Extra Credit 2 (Spread operator)
+    -------------------------------------------------------------------------------------
+    */
+    
+    /* Extra Credit 2 (Spread operator) */
+
+    const className="container";
+    const context = "Hello World";
+    const props = {className: className, children: context}
+
+    // Creates a JSX element
+    const element = <div {...props}/>;
+
+
+    /*
+    -------------------------------------------------------------------------------------
+    Core Task (Rendering JSX)
+    -------------------------------------------------------------------------------------
+    */
+    // const element = <div className="container">Hello World</div>
+
+    ReactDOM.render(element, document.getElementById('root'))
+  </script>
+</body>
