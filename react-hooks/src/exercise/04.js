@@ -3,49 +3,58 @@
 
 import React from 'react'
 
-function Board() {
-  // 🐨 squares is the state for this component. Add useState for squares
-  const squares = Array(9).fill(null)
+import {useLocalStorageState} from '../utils';
 
-  // 🐨 We'll need the following bits of derived state:
-  // - nextValue ('X' or 'O')
-  // - winner ('X', 'O', or null)
-  // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
-  // 💰 I've written the calculations for you! So you can use my utilities
-  // below to create these variables
+const initialSquares = Array(9).fill(null);
 
-  // This is the function your square click handler will call. `square` should
-  // be an index. So if they click the center square, this will be `4`.
+const Board = () => {
+
+  // The squares need to be reactive, so they are stored in state
+  // const [squares, setSquares] = useState(() => JSON.parse(window.localStorage.getItem('squares')) || initialSquares);
+
+  // useEffect(() => {
+  //   window.localStorage.setItem('squares',JSON.stringify(squares));
+  // }, [squares]);
+
+  const [squares, setSquares] = useLocalStorageState('squares', initialSquares);
+
+  // Calculate the next value e.g. X or O
+  const nextValue  = calculateNextValue(squares);
+
+  // Calculate the winner,  
+  const winner = calculateWinner(squares);
+
+  // Calculate the games status (Returns the next player or the winner of the game)
+  const status = calculateStatus(winner, squares, nextValue);
+
   function selectSquare(square) {
-    // 🐨 first, if there's already winner or there's already a value at the
-    // given square index (like someone clicked a square that's already been
-    // clicked), then return early so we don't make any state changes
-    //
-    // 🦉 It's typically a bad idea to manipulate state in React because that
-    // can lead to subtle bugs that can easily slip into productions.
-    // 🐨 make a copy of the squares array (💰 `[...squares]` will do it!)
-    // 🐨 Set the value of the square that was selected
-    // 💰 `squaresCopy[square] = nextValue`
-    //
-    // 🐨 set the squares to your copy
+
+    // When there is either a winner or if the square already exists don't do anything
+    // winner === true || Square index is already taken then don't allow allow the current square to be updated (Square taken -> true, else false)
+    if(winner || squares[square]) return;
+
+    // Copy the state, it can't or at least shouldn't be modified directly. So copy it then reset the state
+    const squaresCopy = [...squares];
+
+    // Update the selected square with the next value e.g. X or O
+    squaresCopy[square] = nextValue;
+
+    // Update the squares (Will have the updated value e.g. X or O)
+    setSquares(squaresCopy);
   }
 
-  function restart() {
-    // 🐨 set the squares to `Array(9).fill(null)`
-  }
+  // Whenever the "Restart" button is clicked reset the squares board back to it's initial values 
+  const restart = () => setSquares(initialSquares);
 
-  function renderSquare(i) {
-    return (
+  const renderSquare = i => (
       <button className="square" onClick={() => selectSquare(i)}>
         {squares[i]}
       </button>
-    )
-  }
+    );
 
   return (
     <div>
-      {/* 🐨 put the status here */}
-      <div className="status">STATUS</div>
+      <div className="status">{status}</div>
       <div className="board-row">
         {renderSquare(0)}
         {renderSquare(1)}
@@ -68,17 +77,6 @@ function Board() {
   )
 }
 
-function Game() {
-  return (
-    <div className="game">
-      <div className="game-board">
-        <Board />
-      </div>
-    </div>
-  )
-}
-
-// eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
   return winner
     ? `Winner: ${winner}`
@@ -87,14 +85,18 @@ function calculateStatus(winner, squares, nextValue) {
     : `Next player: ${nextValue}`
 }
 
-// eslint-disable-next-line no-unused-vars
 function calculateNextValue(squares) {
+  // Get the length of all the squares which have a value of X 
   const xSquaresCount = squares.filter(r => r === 'X').length
+
+  // Get the length of all the squares which have O
   const oSquaresCount = squares.filter(r => r === 'O').length
+
+  // Switch between X and O's. 
+  // 0 === 0 -> true (X) , 0 === 1 -> false (O), 1 === 1 -> true (X)
   return oSquaresCount === xSquaresCount ? 'X' : 'O'
 }
 
-// eslint-disable-next-line no-unused-vars
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -106,17 +108,31 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ]
+
+  // Loop through the lines array
   for (let i = 0; i < lines.length; i++) {
+
+    // Destructuring the elements from the array e.g. [0, 1, 2] becomes individual variables e.g. a, b, c
     const [a, b, c] = lines[i]
+
+    // Checks to see if the current element has three in a row 
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }
   }
+
   return null
 }
 
-function App() {
-  return <Game />
-}
+const Game = () => (
+  <div className="game">
+    <div className="game-board">
+      <Board />
+    </div>
+  </div>
+);
+
+
+const App = () => <Game/>
 
 export default App
