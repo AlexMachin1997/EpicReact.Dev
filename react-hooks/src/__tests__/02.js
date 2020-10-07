@@ -2,7 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/02'
-// import App from '../exercise/02'
+// import App from '../exercise/02' (Fails because of the custom hook)
 
 afterEach(() => {
   window.localStorage.removeItem('name')

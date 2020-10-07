@@ -11,8 +11,7 @@ import React, {useState} from 'react'
   In this exercise we have a form where you can type in your name and it will give
   you a greeting as you type. Fill out the `Greeting` component so that it manages
   the state of the name and shows the greeting as the name is changed.
-
-
+  
   -------------------------------------------------------------------------------------
   Extra Credits:
   -------------------------------------------------------------------------------------
