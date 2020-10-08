@@ -1,8 +1,10 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-// import App from '../final/04.extra-1'
-import App from '../exercise/04'
+import App from '../final/04.extra-1'
+// import App from '../exercise/04'
+
+/* Won't work after adding the history functionality, the original copy is still present in the exercise it's just not in use. */
 
 test('can play a game of tic tac toe', () => {
   const {container} = render(<App />)
