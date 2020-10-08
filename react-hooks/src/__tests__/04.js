@@ -1,8 +1,8 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-// import App from '../final/04'
-import App from '../exercise/04'
+import App from '../final/04'
+// import App from '../exercise/04'
 
 test('can play a game of tic tac toe', () => {
   const {container} = render(<App />)
