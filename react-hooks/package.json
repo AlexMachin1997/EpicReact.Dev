@@ -20,7 +20,7 @@
     "codegen.macro": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-error-boundary": "^2.3.1",
+    "react-error-boundary": "^2.3.2",
     "vanilla-tilt": "^1.7.0"
   },
   "devDependencies": {

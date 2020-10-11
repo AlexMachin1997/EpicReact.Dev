@@ -1,10 +1,9 @@
 // useEffect: HTTP requests
 // http://localhost:3000/isolated/exercise/06.js
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import {ErrorBoundary} from 'react-error-boundary'
 import {fetchPokemon, PokemonDataView, PokemonForm, PokemonInfoFallback} from '../pokemon'
-
-
 /* 
 -------------------------------------------------------------------------------------
 Core Task:
@@ -69,17 +68,84 @@ When the state is set all the previous properties won't be available. We could u
 create a custom component, but it's not needed. Plus later on we will use the useReducer hook which handles this type of state ie object based
 
 -------------------------------------------------------------------------------------
+
+- Custom Error Boundary and re-mounting the Error Boundary component
+
+We already handle API related, however, we don't have a way to handle UI related. To prevent "the white screen of death"
+create a custom ErrorBoundary component.
+
+The component will need to be able to do the following:
+
+- Wrap around the PokemonInfo, it will be the components children e.g. <ErrorBoundary><h1>Hello</h1><ErrorBoundary/>
+
+- Accept a custom component to present an error message (Pass in the component and return it like <this.props.FallbackComponent error={this.state.error}/>)
+
+- Pass in a key to the ErrorBoundary, this will allow the component to re-mount when the value for the key changes e.g. pokemonName getting updated
+
+
+NOTES: 
+
+- To trigger the component you need to use the "throw" keyword, this will throw a UI error rendering the ErrorBoundary
+
+- Heres a link to the ErrorBoundary section of the React docs -> https://reactjs.org/docs/error-boundaries.html
+
+
+-------------------------------------------------------------------------------------
+
+Using "use react-error-boundary" to handle the ErrorBoundary
+
+- Replace the current ErrorBoundary component with an external component
+
+- Pass the custom error component to the FallbackComponent prop for ErrorBoundary
+
+- Use the resetKeys prop to enable users to select a pokemon and reset the error boundary (You need to pass the state in e.g. [pokemonName])
+
+Note: Heres the link to the library -> https://github.com/bvaughn/react-error-boundary
+
 */
+
+// class ErrorBoundary extends Component {
+
+// Custom ErrorBoundary component, equivalent of "use react-error-boundary"
+
+//   // Stores the error state
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       error: null
+//     }
+//   }
+
+//   // Gets the error which was thrown whilst rendering the UI 
+//   static getDerivedStateFromError(error) {
+//     return {error: error}
+//   }
+  
+//   render() {
+
+//     const {error} = this.state;
+
+//     // When there is an error return the fallback component which was passed in
+//     if(error) {
+//       return <this.props.FallbackComponent error={this.state.error}/>
+//     }
+
+//     // When there are no errors return whatever children are passed in between the ErrorBoundary e.g. the pokemon card
+//     return this.props.children;
+//   }
+// }
 
 const usePokemon = (pokemonName) => {
 
-  // The state is stored inside of one object, this prevents multiple re-renders from occurring and the setting of the state doesn't matter now.
-  // NOTE: When the state is set the existing properties will be removed, we could spread them but there is no need in this case. Plus there is a better option later on, useReducer hook
-  const [state, setState] = useState({
+  const initialState = {
     pokemon: null,
     error: null,
-    status: 'idle'
-  });
+    status: pokemonName ? 'pending' : 'idle'
+  }
+
+  // The state is stored inside of one object, this prevents multiple re-renders from occurring and the setting of the state doesn't matter now.
+  // NOTE: When the state is set the existing properties will be removed, we could spread them but there is no need in this case. Plus there is a better option later on, useReducer hook
+  const [state, setState] = useState(initialState);
 
   // Destructuring the state into individual 
   const {pokemon, error, status} = state;
@@ -116,7 +182,7 @@ const usePokemon = (pokemonName) => {
         // Update the pokemon and status state
         setState({pokemon: res, status: 'resolved'});
       } catch(err) {
-        
+                
         // Whenever an error occurs set the status to rejected
         setState({pokemon: null, status: 'rejected', error: err});
       }      
@@ -131,50 +197,72 @@ const usePokemon = (pokemonName) => {
   return [pokemon, error, status];
 }
 
-function PokemonInfo({pokemonName}) {
+const PokemonInfo = pokemonName => {
+
 
   // Must be destructured in the same as the values are returned, they aren't 
   const [pokemon, error, status] = usePokemon(pokemonName);
 
   // Render the content based on the status of the request
   switch(status) {
+
+    // Renders the idle ui ie just text prompting you to search :D
     case 'idle': {
       return 'Submit a Pokemon Name';
     }
 
+    // Renders the loading ui component
     case 'pending': {
       return <PokemonInfoFallback name={pokemonName}/>
     }
 
+    // Renders the main ui component, PokemonDataView
     case 'resolved': {
       return <PokemonDataView pokemon={pokemon}/>
     }
 
+    // Renders the ErrorBoundary
     case 'rejected': {
-      return (
-        <div role="alert">
-          There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-        </div>
-      )
+      throw error.message
     }
 
+    // Renders the ErrorBoundary
     default: {
-      return null;
+      // eslint-disable-next-line no-throw-literal
+      throw "Something went wrong!"
     }
   }
 }
 
+// The resetErrorBoundary is injected via the FallBackComponent prop for ErrorBoundary
+const ErrorFallback = ({error, resetErrorBoundary}) => {
+  return (
+    <div role="alert">
+      There was an error: <pre style={{whiteSpace: 'normal'}}>{error}</pre>
+      <button onClick={resetErrorBoundary}>Try again!</button>
+    </div>
+  )
+}
+
 const App = () => {
+
+  // Stores the search value
   const [pokemonName, setPokemonName] = React.useState('')
 
+  // Used to handle the form submission
   const handleSubmit = newPokemonName => setPokemonName(newPokemonName)
+
+  // Used to reset the pokemon name ie when the user had an error and they set the pokemon name
+  const handleReset = () => setPokemonName('');
 
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
-      <hr />
+      <hr /> 
       <div className="pokemon-info">
-        <PokemonInfo pokemonName={pokemonName} />
+        <ErrorBoundary FallbackComponent={ErrorFallback} onReset={handleReset} resetKeys={[pokemonName]}>
+          <PokemonInfo pokemonName={pokemonName} />
+        </ErrorBoundary>
       </div>    
     </div>
   )
