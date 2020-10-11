@@ -1,0 +1,56 @@
+# Lifting state
+
+## Background
+
+A common question from React beginners is how to share state between two sibling
+components. The answer is to
+["lift the state"](https://reactjs.org/docs/lifting-state-up.html) which
+basically amounts to finding the lowest common parent shared between the two
+components and placing the state management there, and then passing the state
+and a mechanism for updating that state down into the components that need it.
+
+## Exercise
+
+Production deploys:
+
+- [Exercise](https://react-hooks.netlify.app/isolated/exercise/03.js)
+- [Final](https://react-hooks.netlify.app/isolated/final/03.js)
+
+👨‍💼 Peter told us we've got a new feature request for the `Display` component. He
+wants us to display the `animal` the user selects. But that state is managed in
+a "sibling" component, so we have to move that management to the least common
+parent (`App`) and then pass it down.
+
+## Extra Credit
+
+### 1. 💯 colocating state
+
+[Production deploy](https://react-hooks.netlify.app/isolated/final/03.extra-1.js)
+
+As a community we’re pretty good at lifting state. It becomes natural over time.
+One thing that we typically have trouble remembering to do is to push state back
+down (or
+[colocate state](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster)).
+
+👨‍💼 Peter told us that now users only want the animal displayed instead of the
+name:
+
+```javascript
+function Display({animal}) {
+  return <div>{`Your favorite animal is: ${animal}!`}</div>
+}
+```
+
+You'll notice that just updating the `Display` component to this works fine, but
+for the extra credit, go through the process of moving state to the components
+that need it. You know what you just did for the `Animal` component? You need to
+do the opposite thing for the `Name` component.
+
+## 🦉 Elaboration and Feedback
+
+<div>
+<span>After the instruction, if you want to remember what you've just learned, then </span>
+<a rel="noopener noreferrer" target="_blank" href="https://ws.kcd.im/?ws=React%20Hooks%20%F0%9F%8E%A3&e=03%3A%20Lifting%20state&em=">
+  fill out the elaboration and feedback form.
+</a>
+</div>
