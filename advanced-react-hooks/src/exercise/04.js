@@ -16,6 +16,7 @@ is run before the DOM is updated/rendered.
 
 NOTE: This isn't used very often.
 
+-------------------------------------------------------------------------------------
 */
 
 function MessagesDisplay({messages}) {
