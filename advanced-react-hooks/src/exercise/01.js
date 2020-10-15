@@ -86,7 +86,7 @@ function Counter({initialCount = 0, step = 10}) {
 
   const increment = useCallback(() => dispatch({type: 'INCREMENT', value: step}), [step]);
 
-  const decrement = useCallback(() => dispatch({type: 'DECREMENT', value: step}), [step]);
+  // const decrement = useCallback(() => dispatch({type: 'DECREMENT', value: step}), [step]);
 
   return <button onClick={increment}>{count}</button>
 }

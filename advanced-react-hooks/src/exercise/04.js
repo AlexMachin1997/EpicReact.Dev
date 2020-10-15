@@ -3,10 +3,25 @@
 
 import React from 'react'
 
+/* 
+-------------------------------------------------------------------------------------
+Core Task:
+-------------------------------------------------------------------------------------
+
+With the useEffect hook it runs after the browser has rendered the DOM, so if we add a message the browser won't react stragith away. It will add
+the message, but the ref/state won't update.
+
+To ensure the browser runs the hook before paining the DOM is updated the useLayoutEffect can be run, this ensures anything within this effect
+is run before the DOM is updated/rendered.
+
+NOTE: This isn't used very often.
+
+*/
+
 function MessagesDisplay({messages}) {
   const containerRef = React.useRef()
   // 🐨 replace useEffect with useLayoutEffect
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     containerRef.current.scrollTop = containerRef.current.scrollHeight
   })
 

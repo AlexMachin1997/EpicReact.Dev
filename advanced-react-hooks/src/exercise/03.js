@@ -1,7 +1,7 @@
 // useContext: simple Counter
 // http://localhost:3000/isolated/exercise/03.js
 
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 
 
 /* 
@@ -69,13 +69,13 @@ const useCounter = () => {
 function CountDisplay() {
   // 🐨 get the count from useContext with the CountContext
   // const [count] = React.useContext(CountContext);
-  const [count, setCount] = useCounter();
+  const [count, ] = useCounter();
   return <div>{`The current count is ${count}`}</div>
 }
 
 function Counter() {
   // 🐨 get the setCount from useContext with the CountContext
-  const [count, setCount] = useCounter();
+  const [,setCount] = useCounter();
   // const count = 0;
   // const setCount = () => {};
   const increment = () => setCount(c => c + 1)

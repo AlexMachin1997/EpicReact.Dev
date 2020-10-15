@@ -94,7 +94,7 @@ function PokemonInfo({pokemonName}) {
 
 function PreviousPokemon({onSelect}) {
   // 🐨 get the cache from useContext with PokemonCacheContext
-  const [cache, dispatch] = usePokemonCache();
+  const [cache, ] = usePokemonCache();
   return (
     <div>
       Previous Pokemon
